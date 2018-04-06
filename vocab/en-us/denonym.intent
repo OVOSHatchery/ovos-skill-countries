@@ -1,0 +1,8 @@
+call people that live ( in | on | at ) { country }
+call residents of { country }
+call someone who lives ( in | on | at ) { country }
+call ( people | someone ) born ( in | on | at ) { country }
+call ( people | someone ) from { country }
+someone who lives ( in | on | at ) { country } called
+( what is | what are | how is | how are ) ( people | someone ) born ( in | on | at ) { country } called
+( what is | what are | how is | how are ) ( people | someone ) from { country } called
