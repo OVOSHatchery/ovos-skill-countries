@@ -233,7 +233,7 @@ class CountriesSkill(MycroftSkill):
             self.country_codes[c["alpha2Code"]] = name
             self.countries_data[name]["alpha3Code"] = c["alpha3Code"]
             self.country_codes[c["alpha3Code"]] = name
-            self.countries_data[name]["area"] = c["area"]
+            self.countries_data[name]["area"] = str(c["area"])
             self.countries_data[name]["languages"] = [LanguageData(language=l)
                                                           .language_name()
                                                       for l in c["languages"]]
