@@ -107,7 +107,10 @@ class CountriesSkill(MycroftSkill):
 
     @intent_file_handler("where_language_spoken.intent")
     def handle_language_where(self, message):
+        clean_up = ["is"] # words commonly caught by mistake in padatious
         language = message.data["language"]
+        words = language.split(" ")
+        language = " ".join([word for word in words if word not in clean_up])
         self.log.debug(language)
         # sql error in lib workaround
         from langcodes import standardize_tag, LanguageData, find_name
