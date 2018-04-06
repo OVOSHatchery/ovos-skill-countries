@@ -1,6 +1,6 @@
-where is { language } spoken
-tell me where i can find { language } ( speakers | )
-places where they speak { language }
-where { language } is spoken
-what place is { language } spoken
-( what | which ) countries speak { language }
+where is {language} spoken
+tell me where i can find {language} ( speakers | )
+places where they speak {language}
+where {language} is spoken
+what place is {language} spoken
+( what | which ) countries speak {language}

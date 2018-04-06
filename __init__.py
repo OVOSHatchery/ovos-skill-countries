@@ -44,6 +44,7 @@ class CountriesSkill(MycroftSkill):
                           str([c["name"] for c in countries]))
             c = countries[0]
             name = c["name"]
+
             region = c["region"]
             sub = c["subregion"]
             if region in sub:
@@ -63,6 +64,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             coins = self.countries_data[country]["currencies"]
             for c in coins:
@@ -74,6 +76,7 @@ class CountriesSkill(MycroftSkill):
     @intent_file_handler("country_in_region.intent")
     def handle_country_in_region(self, message):
         region = message.data["region"]
+        self.log.debug(region)
         if region in self.regions:
             countries = self.search_country_by_region(region)
         elif region in self.subregions:
@@ -90,6 +93,7 @@ class CountriesSkill(MycroftSkill):
     @intent_file_handler("where_language_spoken.intent")
     def handle_language_where(self, message):
         language = message.data["language"]
+        self.log.debug(language)
         lang_code = find_name('language', language, standardize_tag(self.lang))
         countries = self.search_country_by_language(lang_code)
         if len(countries):
@@ -106,6 +110,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             langs = self.countries_data[country]["languages"]
             for lang in langs:
@@ -120,6 +125,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
             timezones = self.countries_data[country]["timezones"]
@@ -133,6 +139,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
             area = self.countries_data[country]["area"]
@@ -149,6 +156,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
             population = self.countries_data[country]["population"]
@@ -164,6 +172,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
             borders = self.countries_data[country]["borders"]
@@ -180,6 +189,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
             capital = self.countries_data[country]["capital"]
@@ -192,6 +202,7 @@ class CountriesSkill(MycroftSkill):
         if not len(self.countries_data):
             self.get_country_data()
         country = message.data["country"]
+        self.log.debug(country)
         if country in self.countries_data.keys():
             denonym = self.countries_data[country]["denonym"]
             self.speak(denonym)
