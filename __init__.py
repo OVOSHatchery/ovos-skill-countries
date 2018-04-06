@@ -30,10 +30,15 @@ class CountriesSkill(MycroftSkill):
                            u'Melanesia', u'Micronesia', u'Central Asia']
         self.get_country_data()
 
+    def initialize(self):
+        for c in self.countries_data.keys():
+            self.register_vocabulary("country", c)
+
     # intent handlers
     # country is only populated by adapt context
     @intent_handler(IntentBuilder("CountryRegion")
-                    .require("where").require("country"))
+                    .require("where").require("country")
+                    .require("adapt_trigger"))
     # padatious is the official handler
     @intent_file_handler("country_region.intent")
     def handle_country_where(self, message):
@@ -45,6 +50,8 @@ class CountriesSkill(MycroftSkill):
                           str([c["name"] for c in countries]))
             c = countries[0]
             name = c["name"]
+            self.set_context("adapt_trigger")
+            self.set_context("country", name)
 
             region = c["region"]
             sub = c["subregion"]
@@ -59,7 +66,7 @@ class CountriesSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("CountryCurrency")
                     .require("currency").require("country")
-                    .require("question"))
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_currency.intent")
     def handle_country_currency(self, message):
         if not len(self.countries_data):
@@ -67,6 +74,8 @@ class CountriesSkill(MycroftSkill):
         country = message.data["country"]
         self.log.debug(country)
         if country in self.countries_data.keys():
+            self.set_context("adapt_trigger")
+            self.set_context("country", country)
             coins = self.countries_data[country]["currencies"]
             for c in coins:
                 # TODO currency code to spoken currency name
@@ -110,7 +119,7 @@ class CountriesSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("CountryLanguage")
                     .require("languages").require("country")
-                    .require("question"))
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_languages.intent")
     def handle_country_languages(self, message):
         if not len(self.countries_data):
@@ -125,7 +134,8 @@ class CountriesSkill(MycroftSkill):
             self.speak_dialog("bad_country")
 
     @intent_handler(IntentBuilder("CountryTimezone")
-                    .require("timezone").require("country"))
+                    .require("timezone").require("country")
+                    .require("adapt_trigger"))
     @intent_file_handler("country_timezones.intent")
     def handle_country_timezones(self, message):
         if not len(self.countries_data):
@@ -133,6 +143,7 @@ class CountriesSkill(MycroftSkill):
         country = message.data["country"]
         self.log.debug(country)
         if country in self.countries_data.keys():
+            self.set_context("adapt_trigger")
             self.set_context("country", country)
             timezones = self.countries_data[country]["timezones"]
             for t in timezones:
@@ -148,6 +159,7 @@ class CountriesSkill(MycroftSkill):
         self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
+            self.set_context("adapt_trigger")
             area = self.countries_data[country]["area"]
             # TODO units
             self.speak(area)
@@ -156,7 +168,7 @@ class CountriesSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("CountryPopulation")
                     .require("population").require("country")
-                    .require("question"))
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_population.intent")
     def handle_country_population(self, message):
         if not len(self.countries_data):
@@ -165,6 +177,7 @@ class CountriesSkill(MycroftSkill):
         self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
+            self.set_context("adapt_trigger")
             population = self.countries_data[country]["population"]
             self.speak(population)
         else:
@@ -172,7 +185,7 @@ class CountriesSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("CountryBorders")
                     .require("borders").require("country")
-                    .require("question"))
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_borders.intent")
     def handle_country_borders(self, message):
         if not len(self.countries_data):
@@ -181,6 +194,7 @@ class CountriesSkill(MycroftSkill):
         self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
+            self.set_context("adapt_trigger")
             borders = self.countries_data[country]["borders"]
             for b in borders:
                 self.speak(self.country_codes[b])
@@ -189,7 +203,7 @@ class CountriesSkill(MycroftSkill):
 
     @intent_handler(IntentBuilder("CountryCapital")
                     .require("capital").require("country")
-                    .require("question"))
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_capital.intent")
     def handle_country_capital(self, message):
         if not len(self.countries_data):
@@ -198,6 +212,7 @@ class CountriesSkill(MycroftSkill):
         self.log.debug(country)
         if country in self.countries_data.keys():
             self.set_context("country", country)
+            self.set_context("adapt_trigger")
             capital = self.countries_data[country]["capital"]
             self.speak(capital)
         else:
@@ -213,6 +228,7 @@ class CountriesSkill(MycroftSkill):
             denonym = self.countries_data[country]["denonym"]
             self.speak(denonym)
             self.set_context("country", country)
+            self.set_context("adapt_trigger")
         else:
             self.speak_dialog("bad_country")
 
