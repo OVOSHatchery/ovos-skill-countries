@@ -1,6 +1,6 @@
 ## skill - Countries
 
-data about countries
+data about countries from http://restcountries.eu/
 
 ## description
 
@@ -20,6 +20,11 @@ country population, area, language, borders, currency, timezone, capital, denony
 * where is portugal located at
 * how many countries do you know about
 * what are the countries in europe
+
+
+## TODO
+
+* do not use mashape key, use the [python package](https://github.com/SteinRobert/python-restcountries)
 
 ## Credits
 

@@ -1,5 +1,5 @@
 from adapt.intent import IntentBuilder
-from mycroft.skills.core import FallbackSkill, intent_handler, \
+from mycroft.skills.core import MycroftSkill, intent_handler, \
     intent_file_handler
 from langcodes import standardize_tag, LanguageData, find_name
 import unirest
@@ -8,7 +8,7 @@ import json
 __author__ = 'jarbas'
 
 
-class CountriesSkill(FallbackSkill):
+class CountriesSkill(MycroftSkill):
 
     def __init__(self):
         super(CountriesSkill, self).__init__()
