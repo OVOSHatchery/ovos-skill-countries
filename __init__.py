@@ -224,7 +224,7 @@ class CountriesSkill(MycroftSkill):
     def get_country_data(self):
         countries = self.get_all_countries()
         for c in countries:
-            name = c["name"]
+            name = c["name"].lower()
             self.countries_data[name] = {}
             self.countries_data[name]["timezones"] = c["timezones"]
             self.countries_data[name]["demonym"] = c["demonym"]
