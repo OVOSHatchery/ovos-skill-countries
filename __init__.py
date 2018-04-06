@@ -225,7 +225,7 @@ class CountriesSkill(MycroftSkill):
         country = message.data["country"]
         self.log.debug(country)
         if country in self.countries_data.keys():
-            denonym = self.countries_data[country]["denonym"]
+            denonym = self.countries_data[country]["demonym"]
             self.speak(denonym)
             self.set_context("country", country)
             self.set_context("adapt_trigger")
