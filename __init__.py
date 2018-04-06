@@ -2,6 +2,7 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler, \
     intent_file_handler
 from mycroft.util.parse import match_one
+from mycroft.audio import wait_while_speaking
 from langcodes import standardize_tag, LanguageData, find_name
 from restcountries import RestCountryApi
 import requests
@@ -130,6 +131,7 @@ class CountriesSkill(MycroftSkill):
             langs = self.countries_data[country]["languages"]
             for lang in langs:
                 self.speak(lang)
+                wait_while_speaking()
         else:
             self.speak_dialog("bad_country")
 
@@ -148,6 +150,7 @@ class CountriesSkill(MycroftSkill):
             timezones = self.countries_data[country]["timezones"]
             for t in timezones:
                 self.speak(t)
+                wait_while_speaking()
         else:
             self.speak_dialog("bad_country")
 
@@ -198,6 +201,7 @@ class CountriesSkill(MycroftSkill):
             borders = self.countries_data[country]["borders"]
             for b in borders:
                 self.speak(self.country_codes[b])
+                wait_while_speaking()
         else:
             self.speak_dialog("bad_country")
 
@@ -265,7 +269,7 @@ class CountriesSkill(MycroftSkill):
             self.countries_data[name]["capital"] = c["capital"]
             self.countries_data[name]["borders"] = c["borders"]
             self.countries_data[name]["nativeName"] = c["nativeName"]
-            self.countries_data[name]["population"] = c["population"]
+            self.countries_data[name]["population"] = str(c["population"])
             self.countries_data[name]["region"] = c["region"]
             self.countries_data[name]["subregion"] = c["subregion"]
             if len(c["latlng"]):

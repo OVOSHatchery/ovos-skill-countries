@@ -16,11 +16,15 @@ country population, area, language, borders, currency, timezone, capital, denony
 * what is the population of portugal
 * what is the timezone of portugal
 * what are the people that live in portugal called
-* where is portuguese spoken
+* where is portuguese spoken - x
 * where is portugal located at
 * how many countries do you know about
 * what are the countries in europe
 
+## TODO
+
+* fix currency spellings to use natural language
+* fix timezone spellings to use natural language
 
 ## Credits
 
