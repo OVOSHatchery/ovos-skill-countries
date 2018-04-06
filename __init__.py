@@ -3,7 +3,6 @@ from mycroft.skills.core import MycroftSkill, intent_handler, \
     intent_file_handler
 from mycroft.util.parse import match_one
 from mycroft.audio import wait_while_speaking
-from langcodes import standardize_tag, LanguageData, find_name
 from restcountries import RestCountryApi
 import requests
 import json
@@ -110,6 +109,8 @@ class CountriesSkill(MycroftSkill):
     def handle_language_where(self, message):
         language = message.data["language"]
         self.log.debug(language)
+        # sql error in lib workaround
+        from langcodes import standardize_tag, LanguageData, find_name
         lang_code = find_name('language', language, standardize_tag(self.lang))
         countries = self.search_country_by_language(lang_code)
         if len(countries):
@@ -248,6 +249,8 @@ class CountriesSkill(MycroftSkill):
         return CountryApi.get_all()
 
     def get_country_data(self):
+        # sql error in lib workaround
+        from langcodes import standardize_tag, LanguageData, find_name
         countries = self.get_all_countries()
         for c in countries:
             name = c["name"].lower()
