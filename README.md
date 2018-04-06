@@ -22,10 +22,6 @@ country population, area, language, borders, currency, timezone, capital, denony
 * what are the countries in europe
 
 
-## TODO
-
-* do not use mashape key, use the [python package](https://github.com/SteinRobert/python-restcountries)
-
 ## Credits
 
 JarbasAI

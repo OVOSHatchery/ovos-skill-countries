@@ -2,7 +2,8 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler, \
     intent_file_handler
 from langcodes import standardize_tag, LanguageData, find_name
-import unirest
+from restcountries import RestCountryApi
+import requests
 import json
 
 __author__ = 'jarbas'
@@ -12,11 +13,6 @@ class CountriesSkill(MycroftSkill):
 
     def __init__(self):
         super(CountriesSkill, self).__init__()
-        if "key" not in self.settings:
-            # you are welcome, else get yours here
-            # https://market.mashape.com/explore?sort=developers
-            self.settings["key"] = \
-                "mX8W7sqzonmshpIlUSgcf4VS2nzNp1dObQYjsniJyZlq3F2RBD"
         self.countries_data = {}
         self.country_codes = {}
         self.regions = [u'Asia', u'Europe', u'Africa', u'Oceania',
@@ -210,29 +206,9 @@ class CountriesSkill(MycroftSkill):
         self.speak_dialog("country_number",
                           {"number": len(self.countries_data)})
 
-    # mashape methods
-    def get_mashape(self, url, headers=None):
-        """
-        generic mashape request method, provides api key in headers
-        amd parses result accounting for possible encoding errors
-        """
-        headers = headers or {
-            "X-Mashape-Key": self.settings["key"],
-            "Accept": "application/json"
-        }
-        response = unirest.get(url,
-                               headers=headers
-                               )
-        result = response.body
-        if not isinstance(result, dict):
-            result = json.loads(result.decode("utf-8", "ignore"))
-        return result
-
-    # mashape country api
+    # country api
     def get_all_countries(self):
-        url = "https://restcountries-v1.p.mashape.com/all"
-        response = self.get_mashape(url)
-        return response
+        return CountryApi.get_all()
 
     def get_country_data(self):
         countries = self.get_all_countries()
@@ -264,30 +240,45 @@ class CountriesSkill(MycroftSkill):
                     "long"] = c["latlng"]
 
     def search_country(self, name="portugal"):
-        url = "https://restcountries-v1.p.mashape.com/name/" + name
-        response = self.get_mashape(url)
-        return response
+        return CountryApi.get_countries_by_name(name)
 
     def search_country_by_code(self, code="ru"):
-        url = "https://restcountries-v1.p.mashape.com/alpha/" + code
-        response = self.get_mashape(url)
-        return response
+        return CountryApi.get_countries_by_country_codes([code])
 
     def search_country_by_language(self, lang_code="pt"):
-        url = "https://restcountries-v1.p.mashape.com/lang/" + lang_code
-        response = self.get_mashape(url)
-        return response
+        return CountryApi.get_countries_by_language(lang_code)
 
     def search_country_by_region(self, region="africa"):
-        url = "https://restcountries-v1.p.mashape.com/region/" + region
-        response = self.get_mashape(url)
-        return response
+        return CountryApi.get_countries_by_region(region)
 
-    def search_country_by_subregion(self, sub_region="western asia"):
-        url = "https://restcountries-v1.p.mashape.com/subregion/" + \
-              sub_region
-        response = self.get_mashape(url)
-        return response
+    def search_country_by_subregion(self, subregion="western asia"):
+        return CountryApi.get_countries_by_subregion(subregion)
+
+
+class CountryApi(RestCountryApi):
+    BASE_URI = 'https://restcountries.eu/rest/v1'
+    QUERY_SEPARATOR = ','
+
+    @classmethod
+    def _get_country_list(cls, resource, term=''):
+        # changed to return a dict instead of country object
+        uri = '{}{}/{}'.format(cls.BASE_URI, resource, term)  # build URL
+        response = requests.get(uri)
+        if response.status_code == 200:
+            result_list = []
+            data = json.loads(response.text) # parse json to dict
+            if type(data) == list:
+                for country_data in data:
+                    #country = Country(country_data)
+                    result_list.append(country_data)
+            else:
+                #return Country(data)
+                return data
+            return result_list
+        elif response.status_code == 404:
+            raise requests.exceptions.InvalidURL
+        else:
+            raise requests.exceptions.RequestException
 
 
 def create_skill():
