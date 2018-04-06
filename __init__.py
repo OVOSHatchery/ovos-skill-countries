@@ -1,6 +1,7 @@
 from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill, intent_handler, \
     intent_file_handler
+from mycroft.util.parse import match_one
 from langcodes import standardize_tag, LanguageData, find_name
 from restcountries import RestCountryApi
 import requests
@@ -77,13 +78,18 @@ class CountriesSkill(MycroftSkill):
     def handle_country_in_region(self, message):
         region = message.data["region"]
         self.log.debug(region)
-        if region in self.regions:
+        region, score = match_one(region, self.regions)
+
+        if score > 0.5:
             countries = self.search_country_by_region(region)
-        elif region in self.subregions:
-            countries = self.search_country_by_subregion(region)
         else:
-            self.speak_dialog("bad_region")
-            return
+            region, score = match_one(region, self.subregions)
+            if score > 0.5:
+                countries = self.search_country_by_subregion(region)
+            else:
+                self.speak_dialog("bad_region")
+                return
+
         if len(countries):
             for c in countries:
                 self.speak(c["name"])
