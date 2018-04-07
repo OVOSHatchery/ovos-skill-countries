@@ -37,9 +37,9 @@ class CountriesSkill(MycroftSkill):
 
     # intent handlers
     # country is only populated by adapt context
-    @intent_handler(IntentBuilder("CountryRegion")
-                    .require("where").require("country")
-                    .require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryRegion")
+    #                .require("where").require("country")
+    #                .require("adapt_trigger"))
     # padatious is the official handler
     @intent_file_handler("country_region.intent")
     def handle_country_where(self, message):
@@ -65,9 +65,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryCurrency")
-                    .require("currency").require("country")
-                    .require("question").require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryCurrency")
+    #                .require("currency").require("country")
+    #                .require("question").require("adapt_trigger"))
     @intent_file_handler("country_currency.intent")
     def handle_country_currency(self, message):
         if not len(self.countries_data):
@@ -121,9 +121,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryLanguage")
-                    .require("languages").require("country")
-                    .require("question").require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryLanguage")
+    #                .require("languages").require("country")
+    #                .require("question").require("adapt_trigger"))
     @intent_file_handler("country_languages.intent")
     def handle_country_languages(self, message):
         if not len(self.countries_data):
@@ -138,9 +138,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryTimezone")
-                    .require("timezone").require("country")
-                    .require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryTimezone")
+    #                .require("timezone").require("country")
+    #                .require("adapt_trigger"))
     @intent_file_handler("country_timezones.intent")
     def handle_country_timezones(self, message):
         if not len(self.countries_data):
@@ -172,9 +172,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryPopulation")
-                    .require("population").require("country")
-                    .require("question").require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryPopulation")
+    #                .require("population").require("country")
+    #                .require("question").require("adapt_trigger"))
     @intent_file_handler("country_population.intent")
     def handle_country_population(self, message):
         if not len(self.countries_data):
@@ -189,9 +189,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryBorders")
-                    .require("borders").require("country")
-                    .require("question").require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryBorders")
+    #                .require("borders").require("country")
+    #                .require("question").require("adapt_trigger"))
     @intent_file_handler("country_borders.intent")
     def handle_country_borders(self, message):
         if not len(self.countries_data):
@@ -208,9 +208,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    @intent_handler(IntentBuilder("CountryCapital")
-                    .require("capital").require("country")
-                    .require("question").require("adapt_trigger"))
+    #@intent_handler(IntentBuilder("CountryCapital")
+     #               .require("capital").require("country")
+     #               .require("question").require("adapt_trigger"))
     @intent_file_handler("country_capital.intent")
     def handle_country_capital(self, message):
         if not len(self.countries_data):
@@ -323,3 +323,4 @@ class CountryApi(RestCountryApi):
 
 def create_skill():
     return CountriesSkill()
+
