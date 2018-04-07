@@ -1,2 +1,2 @@
 python-restcountries
-langcodes-py2
+git+https://github.com/JarbasAl/langcodes@py2
