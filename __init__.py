@@ -43,7 +43,7 @@ class CountriesSkill(MycroftSkill):
         return currency_code
 
     # intent handlers
-    # country is only populated by adapt context
+    # adapt_trigger is only populated by adapt context
     #@intent_handler(IntentBuilder("CountryRegion")
     #                .require("where").require("country")
     #                .require("adapt_trigger"))
@@ -54,8 +54,9 @@ class CountriesSkill(MycroftSkill):
         countries = self.search_country(country)
         if len(countries):
             # TODO did you mean this or that
-            self.log.debug("multiple matches found: " +
-                          str([c["name"] for c in countries]))
+            if len(countries) > 1:
+                self.log.debug("multiple matches found: " +
+                              str([c["name"] for c in countries]))
             c = countries[0]
             name = c["name"]
             self.set_context("adapt_trigger")
