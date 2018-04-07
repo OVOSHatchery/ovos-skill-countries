@@ -24,7 +24,6 @@ country population, area, language, borders, currency, timezone, capital, denony
 ## TODO
 
 * use units when speaking country area
-* fix currency spellings to use natural language
 * fix timezone spellings to use natural language
 
 ## Credits

@@ -5,6 +5,7 @@ from mycroft.util.parse import match_one
 from mycroft.audio import wait_while_speaking
 from langcodes import standardize_tag, LanguageData, find_name
 from restcountries import RestCountryApi
+from money.money import CURRENCY
 import requests
 import json
 
@@ -34,6 +35,12 @@ class CountriesSkill(MycroftSkill):
     def initialize(self):
         for c in self.countries_data.keys():
             self.register_vocabulary("country", c)
+
+    def pretty_currency(self, currency_code):
+        currency_code = currency_code.upper()
+        if currency_code in CURRENCY.keys():
+            return CURRENCY[currency_code].name
+        return currency_code
 
     # intent handlers
     # country is only populated by adapt context
@@ -79,7 +86,7 @@ class CountriesSkill(MycroftSkill):
             self.set_context("country", country)
             coins = self.countries_data[country]["currencies"]
             for c in coins:
-                # TODO currency code to spoken currency name
+                c = self.pretty_currency(c)
                 self.speak(c)
         else:
             self.speak_dialog("bad_country")
