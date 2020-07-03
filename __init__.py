@@ -6,6 +6,7 @@ from mycroft.audio import wait_while_speaking
 from langcodes import standardize_tag, LanguageData, find_name
 from restcountries import RestCountryApi
 from money.money import CURRENCY
+from lingua_franca.format import pronounce_number
 import requests
 import json
 
@@ -44,9 +45,10 @@ class CountriesSkill(MycroftSkill):
 
     # intent handlers
     # adapt_trigger is only populated by adapt context
-    #@intent_handler(IntentBuilder("CountryRegion")
-    #                .require("where").require("country")
-    #                .require("adapt_trigger"))
+    # allows follow up questions omitting country name
+    @intent_handler(IntentBuilder("CountryRegion")
+                    .require("where").require("country")
+                    .require("adapt_trigger"))
     # padatious is the official handler
     @intent_file_handler("country_region.intent")
     def handle_country_where(self, message):
@@ -73,9 +75,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryCurrency")
-    #                .require("currency").require("country")
-    #                .require("question").require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryCurrency")
+                    .require("currency").require("country")
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_currency.intent")
     def handle_country_currency(self, message):
         if not len(self.countries_data):
@@ -86,9 +88,9 @@ class CountriesSkill(MycroftSkill):
             self.set_context("adapt_trigger")
             self.set_context("country", country)
             coins = self.countries_data[country]["currencies"]
-            for c in coins:
-                c = self.pretty_currency(c)
-                self.speak(c)
+            coins = ", ".join([self.pretty_currency(c) for c in coins])
+            self.speak_dialog("currency",
+                              {"country": country, "coin": coins})
         else:
             self.speak_dialog("bad_country")
 
@@ -129,9 +131,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryLanguage")
-    #                .require("languages").require("country")
-    #                .require("question").require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryLanguage")
+                    .require("languages").require("country")
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_languages.intent")
     def handle_country_languages(self, message):
         if not len(self.countries_data):
@@ -146,9 +148,9 @@ class CountriesSkill(MycroftSkill):
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryTimezone")
-    #                .require("timezone").require("country")
-    #                .require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryTimezone")
+                    .require("timezone").require("country")
+                    .require("adapt_trigger"))
     @intent_file_handler("country_timezones.intent")
     def handle_country_timezones(self, message):
         if not len(self.countries_data):
@@ -158,10 +160,10 @@ class CountriesSkill(MycroftSkill):
         if country in self.countries_data.keys():
             self.set_context("adapt_trigger")
             self.set_context("country", country)
-            timezones = self.countries_data[country]["timezones"]
-            for t in timezones:
-                self.speak(t)
-                wait_while_speaking()
+            # TODO timezone names, UTC is not speech friendly
+            timezones = ", ".join(self.countries_data[country]["timezones"])
+            self.speak_dialog("timezones",
+                              {"country": country, "timezones": timezones})
         else:
             self.speak_dialog("bad_country")
 
@@ -175,14 +177,16 @@ class CountriesSkill(MycroftSkill):
             self.set_context("country", country)
             self.set_context("adapt_trigger")
             area = self.countries_data[country]["area"]
-            # TODO units
-            self.speak(area)
+            # TODO convert units
+            area = pronounce_number(float(area), lang=self.lang)
+            self.speak_dialog("area",
+                              {"country": country, "number": area})
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryPopulation")
-    #                .require("population").require("country")
-    #                .require("question").require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryPopulation")
+                    .require("population").require("country")
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_population.intent")
     def handle_country_population(self, message):
         if not len(self.countries_data):
@@ -193,13 +197,15 @@ class CountriesSkill(MycroftSkill):
             self.set_context("country", country)
             self.set_context("adapt_trigger")
             population = self.countries_data[country]["population"]
-            self.speak(population)
+            area = pronounce_number(int(population), lang=self.lang)
+            self.speak_dialog("population",
+                              {"country": country, "number": area})
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryBorders")
-    #                .require("borders").require("country")
-    #                .require("question").require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryBorders")
+                    .require("borders").require("country")
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_borders.intent")
     def handle_country_borders(self, message):
         if not len(self.countries_data):
@@ -210,15 +216,15 @@ class CountriesSkill(MycroftSkill):
             self.set_context("country", country)
             self.set_context("adapt_trigger")
             borders = self.countries_data[country]["borders"]
-            for b in borders:
-                self.speak(self.country_codes[b])
-                wait_while_speaking()
+            borders = ", ".join([self.country_codes[b] for b in borders])
+            self.speak_dialog("borders", {"country": country,
+                                          "borders": borders})
         else:
             self.speak_dialog("bad_country")
 
-    #@intent_handler(IntentBuilder("CountryCapital")
-     #               .require("capital").require("country")
-     #               .require("question").require("adapt_trigger"))
+    @intent_handler(IntentBuilder("CountryCapital")
+                    .require("capital").require("country")
+                    .require("question").require("adapt_trigger"))
     @intent_file_handler("country_capital.intent")
     def handle_country_capital(self, message):
         if not len(self.countries_data):
@@ -229,7 +235,8 @@ class CountriesSkill(MycroftSkill):
             self.set_context("country", country)
             self.set_context("adapt_trigger")
             capital = self.countries_data[country]["capital"]
-            self.speak(capital)
+            self.speak_dialog("capital",
+                              {"country": country, "capital": capital})
         else:
             self.speak_dialog("bad_country")
 
@@ -241,7 +248,8 @@ class CountriesSkill(MycroftSkill):
         self.log.debug(country)
         if country in self.countries_data.keys():
             denonym = self.countries_data[country]["demonym"]
-            self.speak(denonym)
+            self.speak_dialog("denonym",
+                              {"country": country, "denonym": denonym})
             self.set_context("country", country)
             self.set_context("adapt_trigger")
         else:
@@ -251,8 +259,9 @@ class CountriesSkill(MycroftSkill):
     def handle_country_number(self, message):
         if not len(self.countries_data):
             self.get_country_data()
+        number = pronounce_number(len(self.countries_data), lang=self.lang)
         self.speak_dialog("country_number",
-                          {"number": len(self.countries_data)})
+                          {"number": number})
 
     # country api
     def get_all_countries(self):
@@ -287,19 +296,24 @@ class CountriesSkill(MycroftSkill):
                 self.countries_data[name]["lat"], self.countries_data[name][
                     "long"] = c["latlng"]
 
-    def search_country(self, name="portugal"):
+    @staticmethod
+    def search_country(name="portugal"):
         return CountryApi.get_countries_by_name(name)
 
-    def search_country_by_code(self, code="ru"):
+    @staticmethod
+    def search_country_by_code(code="ru"):
         return CountryApi.get_countries_by_country_codes([code])
 
-    def search_country_by_language(self, lang_code="pt"):
+    @staticmethod
+    def search_country_by_language(lang_code="pt"):
         return CountryApi.get_countries_by_language(lang_code)
 
-    def search_country_by_region(self, region="africa"):
+    @staticmethod
+    def search_country_by_region(region="africa"):
         return CountryApi.get_countries_by_region(region)
 
-    def search_country_by_subregion(self, subregion="western asia"):
+    @staticmethod
+    def search_country_by_subregion(subregion="western asia"):
         return CountryApi.get_countries_by_subregion(subregion)
 
 
