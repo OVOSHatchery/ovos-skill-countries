@@ -1,3 +1,24 @@
-what ( language | languages ) do they speak ( in | at | on | of ) {country}
-what ( language | languages ) is spoken ( in | at | on | of ) {country}
-what is the official ( language | languages ) ( in | at | on | of ) {country}
+what language do they speak in {country}
+what language is spoken in {country}
+what is the official language in {country}
+what languages do they speak in {country}
+what languages is spoken in {country}
+what is the official languages in {country}
+what language do they speak at {country}
+what language is spoken at {country}
+what is the official language at {country}
+what languages do they speak at {country}
+what languages is spoken at {country}
+what is the official languages at {country}
+what language do they speak on {country}
+what language is spoken on {country}
+what is the official language on {country}
+what languages do they speak on {country}
+what languages is spoken on {country}
+what is the official languages on {country}
+what language do they speak of {country}
+what language is spoken of {country}
+what is the official language of {country}
+what languages do they speak of {country}
+what languages is spoken of {country}
+what is the official languages of {country}

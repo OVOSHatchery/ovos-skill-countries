@@ -1,3 +1,9 @@
-( do you know | tell me | ) what is the population of {country}
-( do you know | tell me | ) how many people live in {country}
-( do you know | tell me | ) population number of {country}
+what is the population of {country}
+how many people live in {country}
+population number of {country}
+tell me what is the population of {country}
+tell me how many people live in {country}
+tell me population number of {country}
+do you know what is the population of {country}
+do you know how many people live in {country}
+do you know population number of {country}

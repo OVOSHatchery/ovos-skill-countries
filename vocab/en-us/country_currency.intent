@@ -1,3 +1,36 @@
-what ( coins | coin | currency ) do they speak ( in | at | on | of ) {country}
-what is the ( coins | coin | currency ) ( in | at | on | of ) {country}
-official ( coins | coin | currency ) ( in | at | on | of ) {country}
+what coin do they use in {country}
+what is the coin in {country}
+official coin in {country}
+what currency do they use in {country}
+what is the currency in {country}
+official currency in {country}
+what coins do they use in {country}
+what is the coins in {country}
+official coins in {country}
+what coin do they use at {country}
+what is the coin at {country}
+official coin at {country}
+what currency do they use at {country}
+what is the currency at {country}
+official currency at {country}
+what coins do they use at {country}
+what is the coins at {country}
+official coins at {country}
+what coin do they use on {country}
+what is the coin on {country}
+official coin on {country}
+what currency do they use on {country}
+what is the currency on {country}
+official currency on {country}
+what coins do they use on {country}
+what is the coins on {country}
+official coins on {country}
+what coin do they use of {country}
+what is the coin of {country}
+official coin of {country}
+what currency do they use of {country}
+what is the currency of {country}
+official currency of {country}
+what coins do they use of {country}
+what is the coins of {country}
+official coins of {country}

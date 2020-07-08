@@ -1,5 +1,40 @@
-what ( countries | country ) ( in | at | on | of ) {region}
-what ( countries | country ) can i find  ( in | at | on | of ) {region}
-what are the ( countries | country ) ( in | at | on | of ) {region}
-which ( countries | country ) does {region} have
-which ( countries | country ) ( in | at | on | of ) {region}
+what country in {region}
+what country can i find  in {region}
+what are the country in {region}
+which country does {region} have
+which country in {region}
+what countries in {region}
+what countries can i find  in {region}
+what are the countries in {region}
+which countries does {region} have
+which countries in {region}
+what country at {region}
+what country can i find  at {region}
+what are the country at {region}
+which country does {region} have
+which country at {region}
+what countries at {region}
+what countries can i find  at {region}
+what are the countries at {region}
+which countries does {region} have
+which countries at {region}
+what country on {region}
+what country can i find  on {region}
+what are the country on {region}
+which country does {region} have
+which country on {region}
+what countries on {region}
+what countries can i find  on {region}
+what are the countries on {region}
+which countries does {region} have
+which countries on {region}
+what country of {region}
+what country can i find  of {region}
+what are the country of {region}
+which country does {region} have
+which country of {region}
+what countries of {region}
+what countries can i find  of {region}
+what are the countries of {region}
+which countries does {region} have
+which countries of {region}

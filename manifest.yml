@@ -1,0 +1,20 @@
+dependencies:
+  python:
+    - requests
+    - pillow
+    - requests-cache
+    - mtranslate
+    - matplotlib
+    - cython
+    - numpy
+    - pyshp
+    - six
+    - cartopy
+    - scipy
+    - auto_regex>=0.3.3
+  system:
+    all:
+    - libgeos-dev
+    - libproj-dev
+    - proj-data
+    - proj-bin

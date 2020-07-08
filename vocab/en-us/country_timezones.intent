@@ -1,3 +1,24 @@
-what is the ( timezone | timezones ) ( of | in ) {country}
-tell me the ( timezone | timezones ) ( of | in ) {country}
-do you know ( timezone | timezones ) ( of | in ) {country}
+what is the timezone in {country}
+tell me the timezone in {country}
+do you know timezone in {country}
+what is the timezones in {country}
+tell me the timezones in {country}
+do you know timezones in {country}
+what is the timezone on {country}
+tell me the timezone on {country}
+do you know timezone on {country}
+what is the timezones on {country}
+tell me the timezones on {country}
+do you know timezones on {country}
+what is the timezone at {country}
+tell me the timezone at {country}
+do you know timezone at {country}
+what is the timezones at {country}
+tell me the timezones at {country}
+do you know timezones at {country}
+what is the timezone of {country}
+tell me the timezone of {country}
+do you know timezone of {country}
+what is the timezones of {country}
+tell me the timezones of {country}
+do you know timezones of {country}

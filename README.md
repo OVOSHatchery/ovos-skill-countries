@@ -8,6 +8,12 @@ data about countries from http://restcountries.eu/
 
 country population, area, language, borders, currency, timezone, capital, denonyms...
 
+![](gui.png)
+![](gui2.png)
+![](gui3.png)
+![](gui4.png)
+![](gui5.png)
+
 ## usage
 
 * "what is the size of portugal"
@@ -25,9 +31,10 @@ country population, area, language, borders, currency, timezone, capital, denony
 
 ## TODO
 
-* "gui integration
 * "use units when speaking country area
 * "fix timezone spellings to use natural language
+* better region matching
+* use .dialog files everywhere, currently country lists are lazy responses
 
 ## Credits
 

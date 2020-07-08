@@ -1,3 +1,14 @@
+requests
+future
 python-restcountries
 langcodes
 git+https://github.com/poswald/python-money
+
+matplotlib
+cython
+numpy
+pyshp
+six
+cartopy
+scipy
+auto_regex>=0.3.3

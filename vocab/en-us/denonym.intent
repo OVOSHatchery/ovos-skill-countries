@@ -1,8 +1,157 @@
-call people that live ( in | on | at ) {country}
 call residents of {country}
-call someone who lives ( in | on | at ) {country}
-call ( people | someone ) born ( in | on | at ) {country}
+call people that lives in {country}
+call people who lives in {country}
+call people born in {country}
 call ( people | someone ) from {country}
-someone who lives ( in | on | at ) {country} called
-( what is | what are | how is | how are ) ( people | someone ) born ( in | on | at ) {country} called
-( what is | what are | how is | how are ) ( people | someone ) from {country} called
+people who lives in {country} called
+what is people born in {country} called
+what is people from {country} called
+what are people born in {country} called
+what are people from {country} called
+how is people born in {country} called
+how is people from {country} called
+how are people born in {country} called
+how are people from {country} called
+call someone that lives in {country}
+call someone who lives in {country}
+call someone born in {country}
+call ( people | someone ) from {country}
+someone who lives in {country} called
+what is someone born in {country} called
+what is someone from {country} called
+what are someone born in {country} called
+what are someone from {country} called
+how is someone born in {country} called
+how is someone from {country} called
+how are someone born in {country} called
+how are someone from {country} called
+call a person that lives in {country}
+call a person who lives in {country}
+call a person born in {country}
+call ( people | someone ) from {country}
+a person who lives in {country} called
+what is a person born in {country} called
+what is a person from {country} called
+what are a person born in {country} called
+what are a person from {country} called
+how is a person born in {country} called
+how is a person from {country} called
+how are a person born in {country} called
+how are a person from {country} called
+call persons that live in {country}
+call persons who live in {country}
+call persons born in {country}
+call ( people | someone ) from {country}
+persons who live in {country} called
+what is persons born in {country} called
+what is persons from {country} called
+what are persons born in {country} called
+what are persons from {country} called
+how is persons born in {country} called
+how is persons from {country} called
+how are persons born in {country} called
+how are persons from {country} called
+call people that lives on {country}
+call people who lives on {country}
+call people born on {country}
+call ( people | someone ) from {country}
+people who lives on {country} called
+what is people born on {country} called
+what is people from {country} called
+what are people born on {country} called
+what are people from {country} called
+how is people born on {country} called
+how is people from {country} called
+how are people born on {country} called
+how are people from {country} called
+call someone that lives on {country}
+call someone who lives on {country}
+call someone born on {country}
+call ( people | someone ) from {country}
+someone who lives on {country} called
+what is someone born on {country} called
+what is someone from {country} called
+what are someone born on {country} called
+what are someone from {country} called
+how is someone born on {country} called
+how is someone from {country} called
+how are someone born on {country} called
+how are someone from {country} called
+call a person that lives on {country}
+call a person who lives on {country}
+call a person born on {country}
+call ( people | someone ) from {country}
+a person who lives on {country} called
+what is a person born on {country} called
+what is a person from {country} called
+what are a person born on {country} called
+what are a person from {country} called
+how is a person born on {country} called
+how is a person from {country} called
+how are a person born on {country} called
+how are a person from {country} called
+call persons that live on {country}
+call persons who live on {country}
+call persons born on {country}
+call ( people | someone ) from {country}
+persons who live on {country} called
+what is persons born on {country} called
+what is persons from {country} called
+what are persons born on {country} called
+what are persons from {country} called
+how is persons born on {country} called
+how is persons from {country} called
+how are persons born on {country} called
+how are persons from {country} called
+call people that lives at {country}
+call people who lives at {country}
+call people born at {country}
+call ( people | someone ) from {country}
+people who lives at {country} called
+what is people born at {country} called
+what is people from {country} called
+what are people born at {country} called
+what are people from {country} called
+how is people born at {country} called
+how is people from {country} called
+how are people born at {country} called
+how are people from {country} called
+call someone that lives at {country}
+call someone who lives at {country}
+call someone born at {country}
+call ( people | someone ) from {country}
+someone who lives at {country} called
+what is someone born at {country} called
+what is someone from {country} called
+what are someone born at {country} called
+what are someone from {country} called
+how is someone born at {country} called
+how is someone from {country} called
+how are someone born at {country} called
+how are someone from {country} called
+call a person that lives at {country}
+call a person who lives at {country}
+call a person born at {country}
+call ( people | someone ) from {country}
+a person who lives at {country} called
+what is a person born at {country} called
+what is a person from {country} called
+what are a person born at {country} called
+what are a person from {country} called
+how is a person born at {country} called
+how is a person from {country} called
+how are a person born at {country} called
+how are a person from {country} called
+call persons that live at {country}
+call persons who live at {country}
+call persons born at {country}
+call ( people | someone ) from {country}
+persons who live at {country} called
+what is persons born at {country} called
+what is persons from {country} called
+what are persons born at {country} called
+what are persons from {country} called
+how is persons born at {country} called
+how is persons from {country} called
+how are persons born at {country} called
+how are persons from {country} called

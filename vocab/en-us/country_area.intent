@@ -1,1 +1,8 @@
-( do you know | tell me | ) what is the ( area | size ) of {country}
+what is the area of {country}
+what is the size of {country}
+do you know what is the area of {country}
+do you know what is the size of {country}
+tell me the area of {country}
+tell me the size of {country}
+tell me what is the area of {country}
+tell me what is the size of {country}

@@ -1,4 +1,8 @@
-where is {country} ( located at | )
+where is {country} located at
+where is {country}
 tell me where {country} is
 do you know where {country} is
 location of {country}
+where is country {country} at
+in what region is {country}
+region of {country}
