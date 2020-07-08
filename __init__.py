@@ -229,8 +229,6 @@ class CountriesSkill(CommonQuerySkill):
             phrase (str): User phrase uttered after "Play", e.g. "some music"
             data (dict): Callback data specified in match_query_phrase()
         """
-        self.settings["map_style"] = "cart"
-
         projection = cartopy.crs.PlateCarree()
         if data.get("country"):
             title = data["country"]
@@ -247,6 +245,7 @@ class CountriesSkill(CommonQuerySkill):
         elif data.get("region"):
             title = data["region"]
             countries = data["country_list"]
+
             if self.settings["map_style"] == "ortho":
                 country = self.countries_data[countries[0]["name"].lower()]
                 lat = country["lat"]
@@ -261,11 +260,13 @@ class CountriesSkill(CommonQuerySkill):
         elif data.get("country_list"):
 
             countries = data["country_list"]
-            if self.settings["map_style"] == "ortho":
-                country = self.countries_data[countries[0]["name"].lower()]
-                lat = country["lat"]
-                lon = country["long"]
-                projection = cartopy.crs.Orthographic(lon, lat)
+
+            # TODO allow this somehow, will not show all countries
+            #if self.settings["map_style"] == "ortho":
+            #    country = self.countries_data[countries[0]["name"].lower()]
+            #    lat = country["lat"]
+            #    lon = country["long"]
+            #    projection = cartopy.crs.Orthographic(lon, lat)
 
             title = data.get("region") \
                     or data.get("language") \

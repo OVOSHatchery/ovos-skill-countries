@@ -35,6 +35,7 @@ country population, area, language, borders, currency, timezone, capital, denony
 * "fix timezone spellings to use natural language
 * better region matching
 * use .dialog files everywhere, currently country lists are lazy responses
+* websettings for mapstyle
 
 ## Credits
 
