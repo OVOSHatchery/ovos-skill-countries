@@ -36,6 +36,7 @@ country population, area, language, borders, currency, timezone, capital, denony
 * better region matching
 * use .dialog files everywhere, currently country lists are lazy responses
 * websettings for mapstyle
+* improve requirements handling, cartopy is optional for gui
 
 ## Credits
 
