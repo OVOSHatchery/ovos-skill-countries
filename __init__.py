@@ -1,13 +1,14 @@
-from mycroft.util.parse import match_one
-import langcodes
-from restcountries import RestCountryApi
-from money.money import CURRENCY
-from lingua_franca.format import pronounce_number
-import requests
 import json
-from tempfile import gettempdir
 from os.path import join, isfile, expanduser
+from tempfile import gettempdir
+
+import langcodes
+import requests
+from lingua_franca.format import pronounce_number
+from money.money import CURRENCY
+from ovos_utils.parse import match_one
 from padatious import IntentContainer
+from restcountries import RestCountryApi
 
 try:
     import matplotlib.pyplot as plt
@@ -16,29 +17,30 @@ except ImportError:
 
     cartopy = None
 
-from mycroft.skills.common_query_skill import CommonQuerySkill, CQSMatchLevel
+from ovos_workshop.skills.common_query_skill import CommonQuerySkill
+from ovos_workshop.skills.common_query_skill import CQSMatchLevel
 
 
 class CountriesSkill(CommonQuerySkill):
 
-    def __init__(self):
-        super(CountriesSkill, self).__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if "map_style" not in self.settings:
             self.settings["map_style"] = "ortho"
         self.countries_data = {}
         self.country_codes = {}
-        self.regions = [u'Asia', u'Europe', u'Africa', u'Oceania',
-                        u'Americas', u'Polar']
-        self.subregions = [u'Southern Asia', u'Northern Europe',
-                           u'Southern Europe', u'Northern Africa',
-                           u'Polynesia', u'Middle Africa', u'Caribbean',
-                           u'South America', u'Western Asia',
-                           u'Australia and New Zealand', u'Western Europe',
-                           u'Eastern Europe', u'Central America',
-                           u'Western Africa', u'Northern America',
-                           u'Southern Africa', u'Eastern Africa',
-                           u'South-Eastern Asia', u'Eastern Asia',
-                           u'Melanesia', u'Micronesia', u'Central Asia']
+        self.regions = [
+            u'Asia', u'Europe', u'Africa', u'Oceania', u'Americas', u'Polar'
+        ]
+        self.subregions = [
+            u'Southern Asia', u'Northern Europe', u'Southern Europe',
+            u'Northern Africa', u'Polynesia', u'Middle Africa', u'Caribbean',
+            u'South America', u'Western Asia', u'Australia and New Zealand',
+            u'Western Europe', u'Eastern Europe', u'Central America',
+            u'Western Africa', u'Northern America', u'Southern Africa',
+            u'Eastern Africa', u'South-Eastern Asia', u'Eastern Asia',
+            u'Melanesia', u'Micronesia', u'Central Asia'
+        ]
         self.get_country_data()
 
         intent_cache = expanduser(
@@ -56,12 +58,12 @@ class CountriesSkill(CommonQuerySkill):
 
     # CommonQuery Padatious subparser
     def load_intents(self):
-        for intent in ["country_area", "country_borders", "country_capital",
-                       "country_currency", "country_in_region",
-                       "country_languages", "country_num",
-                       "country_population",
-                       "country_region", "country_timezones", "denonym",
-                       "where_language_spoken"]:
+        for intent in [
+            "country_area", "country_borders", "country_capital",
+            "country_currency", "country_in_region", "country_languages",
+            "country_num", "country_population", "country_region",
+            "country_timezones", "denonym", "where_language_spoken"
+        ]:
             path = self.find_resource(intent + '.intent', "vocab")
             if path:
                 self.intents.load_intent(intent, path)
@@ -141,9 +143,8 @@ class CountriesSkill(CommonQuerySkill):
                 response = self.dialog_renderer.render("bad_country", {})
                 match, score = match_one(country.lower(),
                                          list(self.countries_data.keys()))
-                self.log.debug(
-                    "Country fuzzy match: {n}, Score: {s}".format(n=match,
-                                                                  s=score))
+                self.log.debug("Country fuzzy match: {n}, Score: {s}".format(
+                    n=match, s=score))
                 if score > 0.5:
                     country = match
                     data.update(self.countries_data[country])
@@ -169,10 +170,8 @@ class CountriesSkill(CommonQuerySkill):
                 # remove words commonly caught by mistake in padatious
                 language = " ".join(
                     [word for word in words if word not in clean_up])
-                lang_code = langcodes.find_name('language',
-                                                language,
-                                                langcodes.standardize_tag(
-                                                    self.lang))
+                lang_code = langcodes.find_name(
+                    'language', language, langcodes.standardize_tag(self.lang))
                 lang_code = str(lang_code)
                 self.log.debug("Detected lang code: " + lang_code)
                 if not lang_code:
@@ -239,9 +238,7 @@ class CountriesSkill(CommonQuerySkill):
                 projection = cartopy.crs.Orthographic(lon, lat)
 
             image = self.plot_country(data["country"], projection=projection)
-            self.gui.show_image(image,
-                                fill='PreserveAspectFit',
-                                title=title)
+            self.gui.show_image(image, fill='PreserveAspectFit', title=title)
         elif data.get("region"):
             title = data["region"]
             countries = data["country_list"]
@@ -253,16 +250,14 @@ class CountriesSkill(CommonQuerySkill):
                 projection = cartopy.crs.Orthographic(lon, lat)
 
             image = self.plot_region(data["region"], projection=projection)
-            self.gui.show_image(image,
-                                fill='PreserveAspectFit',
-                                title=title)
+            self.gui.show_image(image, fill='PreserveAspectFit', title=title)
 
         elif data.get("country_list"):
 
             countries = data["country_list"]
 
             # TODO allow this somehow, will not show all countries
-            #if self.settings["map_style"] == "ortho":
+            # if self.settings["map_style"] == "ortho":
             #    country = self.countries_data[countries[0]["name"].lower()]
             #    lat = country["lat"]
             #    lon = country["long"]
@@ -275,9 +270,12 @@ class CountriesSkill(CommonQuerySkill):
             countries = [c["name"] for c in countries]
             image = self.plot_countries(countries,
                                         projection=projection,
-                                        name=title, region=data.get("region"))
-            self.gui.show_image(image, fill='PreserveAspectFit', title=title,
-                                caption = ", ".join(countries))
+                                        name=title,
+                                        region=data.get("region"))
+            self.gui.show_image(image,
+                                fill='PreserveAspectFit',
+                                title=title,
+                                caption=", ".join(countries))
 
     # gui
     @staticmethod
@@ -287,12 +285,9 @@ class CountriesSkill(CommonQuerySkill):
 
         shapename = 'admin_0_countries'
         countries_shp = cartopy.io.shapereader.natural_earth(
-            resolution='110m',
-            category='cultural',
-            name=shapename)
+            resolution='110m', category='cultural', name=shapename)
 
-        for country in cartopy.io.shapereader.Reader(
-                countries_shp).records():
+        for country in cartopy.io.shapereader.Reader(countries_shp).records():
             country_name = country.attributes['NAME'].lower()
             country_long_name = country.attributes['NAME_LONG'].lower()
 
@@ -313,7 +308,7 @@ class CountriesSkill(CommonQuerySkill):
                 best_match = country.geometry
 
         if best_score < min_score:
-            best_match = None    
+            best_match = None
 
         return best_match
 
@@ -334,12 +329,9 @@ class CountriesSkill(CommonQuerySkill):
     def _get_region_geometries(query, min_score=0.8):
         shapename = 'admin_0_countries'
         countries_shp = cartopy.io.shapereader.natural_earth(
-            resolution='110m',
-            category='cultural',
-            name=shapename)
+            resolution='110m', category='cultural', name=shapename)
         geoms = []
-        for country in cartopy.io.shapereader.Reader(
-                countries_shp).records():
+        for country in cartopy.io.shapereader.Reader(countries_shp).records():
             continent = country.attributes["CONTINENT"].lower()
             region = country.attributes["REGION_WB"].lower()
             subregion = country.attributes["SUBREGION"].lower()
@@ -374,20 +366,24 @@ class CountriesSkill(CommonQuerySkill):
             ax.add_geometries(geometries,
                               cartopy.crs.PlateCarree(),
                               facecolor=color)
-    
+
             plt.savefig(output, bbox_inches='tight', facecolor="black")
             plt.close()
             return output
         return None
 
-    def plot_countries(self, countries, projection=None, rgb=None,
-                       name=None, region=None):
+    def plot_countries(self,
+                       countries,
+                       projection=None,
+                       rgb=None,
+                       name=None,
+                       region=None):
         if cartopy is None:
             return
         name = name or "_".join([c[:2] for c in countries])
 
-        output = join(gettempdir(), name + self.settings["map_style"] +
-                      "_countries.png")
+        output = join(gettempdir(),
+                      name + self.settings["map_style"] + "_countries.png")
 
         if isfile(output):
             return output
@@ -434,8 +430,10 @@ class CountriesSkill(CommonQuerySkill):
         geometries = self._get_region_geometries(query)
         if not geometries:
             countries = self._get_region_countries(query)
-            return self.plot_countries(countries, projection, (r,g,b),
-                                       name=query, region=query)
+            return self.plot_countries(countries,
+                                       projection, (r, g, b),
+                                       name=query,
+                                       region=query)
         ax.add_geometries(geometries,
                           cartopy.crs.PlateCarree(),
                           facecolor=color)
@@ -453,15 +451,19 @@ class CountriesSkill(CommonQuerySkill):
             r = sub
         else:
             r = sub + ", " + region
-        return self.dialog_renderer.render("country_location",
-                                           {"country": name, "region": r})
+        return self.dialog_renderer.render("country_location", {
+            "country": name,
+            "region": r
+        })
 
     def handle_country_currency(self, data):
         country = data["country"]
         coins = self.countries_data[country]["currencies"]
         coins = ", ".join([self.pretty_currency(c) for c in coins])
-        return self.dialog_renderer.render("currency",
-                                           {"country": country, "coin": coins})
+        return self.dialog_renderer.render("currency", {
+            "country": country,
+            "coin": coins
+        })
 
     def handle_country_in_region(self, data):
         region = data["region"]
@@ -495,9 +497,10 @@ class CountriesSkill(CommonQuerySkill):
         country = data["country"]
         if country in self.countries_data.keys():
             timezones = ", ".join(self.countries_data[country]["timezones"])
-            return self.dialog_renderer.render("timezones",
-                                               {"country": country,
-                                                "timezones": timezones})
+            return self.dialog_renderer.render("timezones", {
+                "country": country,
+                "timezones": timezones
+            })
         else:
             return self.dialog_renderer.render("bad_country")
 
@@ -507,9 +510,10 @@ class CountriesSkill(CommonQuerySkill):
             area = self.countries_data[country]["area"]
             # TODO convert units
             area = pronounce_number(float(area), lang=self.lang)
-            return self.dialog_renderer.render("area",
-                                               {"country": country,
-                                                "number": area})
+            return self.dialog_renderer.render("area", {
+                "country": country,
+                "number": area
+            })
         else:
             return self.dialog_renderer.render("bad_country")
 
@@ -518,9 +522,10 @@ class CountriesSkill(CommonQuerySkill):
         if country in self.countries_data.keys():
             population = self.countries_data[country]["population"]
             area = pronounce_number(int(population), lang=self.lang)
-            return self.dialog_renderer.render("population",
-                                               {"country": country,
-                                                "number": area})
+            return self.dialog_renderer.render("population", {
+                "country": country,
+                "number": area
+            })
         else:
             return self.dialog_renderer.render("bad_country")
 
@@ -529,8 +534,10 @@ class CountriesSkill(CommonQuerySkill):
         if country in self.countries_data.keys():
             borders = self.countries_data[country]["borders"]
             borders = ", ".join([self.country_codes[b] for b in borders])
-            return self.dialog_renderer.render("borders", {"country": country,
-                                                           "borders": borders})
+            return self.dialog_renderer.render("borders", {
+                "country": country,
+                "borders": borders
+            })
         else:
             return self.dialog_renderer.render("bad_country")
 
@@ -538,9 +545,10 @@ class CountriesSkill(CommonQuerySkill):
         country = data["country"]
         if country in self.countries_data.keys():
             capital = self.countries_data[country]["capital"]
-            return self.dialog_renderer.render("capital",
-                                               {"country": country,
-                                                "capital": capital})
+            return self.dialog_renderer.render("capital", {
+                "country": country,
+                "capital": capital
+            })
         else:
             return self.dialog_renderer.render("bad_country")
 
@@ -548,9 +556,10 @@ class CountriesSkill(CommonQuerySkill):
         country = data["country"]
         if country in self.countries_data.keys():
             denonym = self.countries_data[country]["demonym"]
-            return self.dialog_renderer.render("denonym",
-                                               {"country": country,
-                                                "denonym": denonym})
+            return self.dialog_renderer.render("denonym", {
+                "country": country,
+                "denonym": denonym
+            })
 
         else:
             return self.dialog_renderer.render("bad_country")
@@ -586,10 +595,12 @@ class CountriesSkill(CommonQuerySkill):
             self.country_codes[c["alpha3Code"]] = name
             self.countries_data[name]["area"] = str(c["area"])
             self.countries_data[name]["languages"] = [
-                langcodes.LanguageData(language=l).language_name() for l in
-                c["languages"]]
+                langcodes.LanguageData(language=l).language_name()
+                for l in c["languages"]
+            ]
             self.countries_data[name]["lang_codes"] = [
-                langcodes.standardize_tag(l) for l in c["languages"]]
+                langcodes.standardize_tag(l) for l in c["languages"]
+            ]
             self.countries_data[name]["capital"] = c["capital"]
             self.countries_data[name]["borders"] = c["borders"]
             self.countries_data[name]["nativeName"] = c["nativeName"]
@@ -598,7 +609,7 @@ class CountriesSkill(CommonQuerySkill):
             self.countries_data[name]["subregion"] = c["subregion"]
             if len(c["latlng"]):
                 self.countries_data[name]["lat"], \
-                self.countries_data[name]["long"] = c["latlng"]
+                    self.countries_data[name]["long"] = c["latlng"]
 
     @staticmethod
     def search_country(name):
@@ -660,7 +671,3 @@ class CountryApi(RestCountryApi):
             raise requests.exceptions.InvalidURL
         else:
             raise requests.exceptions.RequestException
-
-
-def create_skill():
-    return CountriesSkill()
